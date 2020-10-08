@@ -20,8 +20,7 @@ router.get('/me', auth, async (req, res) => {
 
 		res.json(profile)
 	} catch (err) {
-		console.error(err.message)
-		res.status(500).send('Server error')
+		catchError(err, res)
 	}
 })
 
@@ -99,8 +98,7 @@ router.post(
 			await profile.save()
 			res.json(profile)
 		} catch (err) {
-			console.error(err.message)
-			res.status(500).send('Server error')
+			catchError(err, res)
 		}
 	}
 )
@@ -113,8 +111,7 @@ router.get('/', async (req, res) => {
 		const profiles = await Profile.find().populate('user', ['name', 'avatar'])
 		res.json(profiles)
 	} catch (err) {
-		console.error(err.message)
-		res.status(500).send('Server error')
+		catchError(err, res)
 	}
 })
 
@@ -131,9 +128,7 @@ router.get('/user/:user_id', async (req, res) => {
 
 		res.json(profile)
 	} catch (err) {
-		console.error(err.message)
-		if (err.kind == 'ObjectId') return res.status(400).send('Profile not found')
-		res.status(500).send('Server error')
+		catchError(err, res)
 	}
 })
 
@@ -151,8 +146,7 @@ router.delete('/', auth, async (req, res) => {
 
 		res.json({ msg: 'User removed' })
 	} catch (err) {
-		console.error(err.message)
-		res.status(500).send('Server error')
+		catchError(err, res)
 	}
 })
 
@@ -203,10 +197,35 @@ router.put(
 
 			res.json(profile)
 		} catch (err) {
-			console.error(err)
-			res.status(500).send('Server error')
+			catchError(err, res)
 		}
 	}
 )
 
+// @route   DELETE api/profile/experience/:exp_id
+// @desc    Delete experience from profile
+// @access  Private
+router.delete('/experience/:exp_id', auth, async (req, res) => {
+	try {
+		const profile = await Profile.findOne({ user: req.user.id })
+
+		// Get remove index
+		const removeIndex = profile.experience
+			.map(item => item.id)
+			.indexOf(req.params.exp_id)
+
+		profile.experience.splice(removeIndex, 1)
+		await profile.save()
+		res.json(profile)
+	} catch (err) {
+		catchError(err, res)
+	}
+})
+
 module.exports = router
+
+function catchError(err, res) {
+	console.error(err)
+	if (err.kind == 'ObjectId') return res.status(400).send('Profile not found')
+	res.status(500).send('Server error')
+}
