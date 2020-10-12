@@ -6,6 +6,7 @@ const User = require('../../models/User')
 const { check, validationResult } = require('express-validator')
 const request = require('request')
 const config = require('config')
+const { catchError } = require('../../helpers/catchError')
 
 // @route   GET api/profile/me
 // @desc    Get current users profile
@@ -325,9 +326,3 @@ router.get('/github/:user_name', async (req, res) => {
 })
 
 module.exports = router
-
-function catchError(err, res) {
-	console.error(err)
-	if (err.kind == 'ObjectId') return res.status(400).send('Profile not found')
-	res.status(500).send('Server error')
-}
