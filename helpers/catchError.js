@@ -1,6 +1,7 @@
-function catchError(err, res) {
+function catchError(err, res, type) {
 	console.error(err)
-	if (err.kind == 'ObjectId') return res.status(400).send('Profile not found')
+	if (err.kind == 'ObjectId')
+		return res.status(400).send({ msg: `${type} not found` })
 	res.status(500).send('Server error')
 }
 exports.catchError = catchError

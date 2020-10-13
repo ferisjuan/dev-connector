@@ -8,7 +8,9 @@ const request = require('request')
 const config = require('config')
 const { catchError } = require('../../helpers/catchError')
 
-// @route   GET api/profile/me
+const OBJECT_TYPE = 'Profile'
+
+// @r, 'Profile'oute   GET api/profile/me
 // @desc    Get current users profile
 // @access  Private
 router.get('/me', auth, async (req, res) => {
@@ -23,7 +25,7 @@ router.get('/me', auth, async (req, res) => {
 
 		res.json(profile)
 	} catch (err) {
-		catchError(err, res)
+		catchError(err, res, OBJECT_TYPE)
 	}
 })
 
@@ -101,7 +103,7 @@ router.post(
 			await profile.save()
 			res.json(profile)
 		} catch (err) {
-			catchError(err, res)
+			catchError(err, res, OBJECT_TYPE)
 		}
 	}
 )
@@ -114,7 +116,7 @@ router.get('/', async (req, res) => {
 		const profiles = await Profile.find().populate('user', ['name', 'avatar'])
 		res.json(profiles)
 	} catch (err) {
-		catchError(err, res)
+		catchError(err, res, OBJECT_TYPE)
 	}
 })
 
@@ -131,7 +133,7 @@ router.get('/user/:user_id', async (req, res) => {
 
 		res.json(profile)
 	} catch (err) {
-		catchError(err, res)
+		catchError(err, res, OBJECT_TYPE)
 	}
 })
 
@@ -149,7 +151,7 @@ router.delete('/', auth, async (req, res) => {
 
 		res.json({ msg: 'User removed' })
 	} catch (err) {
-		catchError(err, res)
+		catchError(err, res, OBJECT_TYPE)
 	}
 })
 
@@ -200,7 +202,7 @@ router.put(
 
 			res.json(profile)
 		} catch (err) {
-			catchError(err, res)
+			catchError(err, res, OBJECT_TYPE)
 		}
 	}
 )
@@ -221,7 +223,7 @@ router.delete('/experience/:edu_id', auth, async (req, res) => {
 		await profile.save()
 		res.json(profile)
 	} catch (err) {
-		catchError(err, res)
+		catchError(err, res, OBJECT_TYPE)
 	}
 })
 
@@ -271,7 +273,7 @@ router.put(
 
 			res.json(profile)
 		} catch (err) {
-			catchError(err, res)
+			catchError(err, res, OBJECT_TYPE)
 		}
 	}
 )
@@ -292,7 +294,7 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
 		await profile.save()
 		res.json(profile)
 	} catch (err) {
-		catchError(err, res)
+		catchError(err, res, OBJECT_TYPE)
 	}
 })
 
@@ -321,7 +323,7 @@ router.get('/github/:user_name', async (req, res) => {
 			res.json(JSON.parse(body))
 		})
 	} catch (err) {
-		catchError(err, res)
+		catchError(err, res, OBJECT_TYPE)
 	}
 })
 
