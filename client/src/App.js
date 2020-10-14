@@ -7,8 +7,12 @@ import Navbar from './components/layout/Navbar'
 import Register from './auth/Register'
 import Login from './auth/Login'
 
-const App = () => {
-	return (
+// Redux
+import { Provider } from 'react-redux'
+import store from './store'
+
+const App = () => (
+	<Provider store={store}>
 		<Router>
 			<>
 				<Navbar />
@@ -21,7 +25,7 @@ const App = () => {
 				</section>
 			</>
 		</Router>
-	)
-}
+	</Provider>
+)
 
 export default App
