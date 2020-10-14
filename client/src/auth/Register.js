@@ -18,10 +18,13 @@ function Register() {
 		})
 	}
 
-	const onSubmit = e => {
+	const onSubmit = async e => {
 		e.preventDefault()
-		if (password !== repeatPassword) console.log('Passwords do not match')
-		else console.log(formData)
+		if (password !== repeatPassword) {
+			console.log('Passwords do not match')
+		} else {
+			console.log('SUCCESS')
+		}
 	}
 
 	return (
