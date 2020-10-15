@@ -4,8 +4,9 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { setAlert } from '../actions/alert'
+import { register } from '../actions/auth'
 
-function Register({ setAlert }) {
+function Register({ register, setAlert }) {
 	const [formData, setFormData] = useState({
 		name: '',
 		email: '',
@@ -27,7 +28,7 @@ function Register({ setAlert }) {
 		if (password !== repeatPassword) {
 			setAlert('Passwords do not match', 'danger', 2000)
 		} else {
-			console.log('SUCCESS')
+			register({ name, email, password })
 		}
 	}
 
@@ -94,7 +95,8 @@ function Register({ setAlert }) {
 }
 
 Register.propTypes = {
+	register: PropTypes.func.isRequired,
 	setAlert: PropTypes.func.isRequired,
 }
 
-export default connect(null, { setAlert })(Register)
+export default connect(null, { setAlert, register })(Register)
