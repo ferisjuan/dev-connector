@@ -4,13 +4,13 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import Alert from './components/layout/Alert'
 import Landing from './components/layout/Landing'
-import Login from './auth/Login'
+import Login from './components/auth/Login'
 import Navbar from './components/layout/Navbar'
 
 // Redux
 import { Provider } from 'react-redux'
 import store from './store'
-import Register from './auth/Register'
+import Register from './components/auth/Register'
 import { loadUser } from './actions/auth'
 
 const App = () => {
