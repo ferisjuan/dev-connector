@@ -5,6 +5,7 @@ import {
 	REGISTER_SUCCESS,
 	REGISTER_FAIL,
 	USER_LOADED,
+	LOGOUT,
 } from '../actions/types'
 
 const initialState = {
@@ -27,6 +28,7 @@ export default (state = initialState, { type, payload }) => {
 			}
 		case AUTH_ERROR:
 		case LOGIN_FAIL:
+		case LOGOUT:
 		case REGISTER_FAIL:
 			localStorage.removeItem('token')
 			return { ...state, token: null, isAuthN: false, loading: false }

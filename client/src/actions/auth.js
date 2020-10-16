@@ -4,6 +4,7 @@ import {
 	AUTH_ERROR,
 	LOGIN_FAIL,
 	LOGIN_SUCCESS,
+	LOGOUT,
 	REGISTER_SUCCESS,
 	REGISTER_FAIL,
 	USER_LOADED,
@@ -92,4 +93,10 @@ export const loadUser = () => async dispatch => {
 			type: AUTH_ERROR,
 		})
 	}
+}
+
+export const logout = () => dispatch => {
+	dispatch({
+		type: LOGOUT,
+	})
 }

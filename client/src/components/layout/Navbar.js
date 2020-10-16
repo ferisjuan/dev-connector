@@ -1,7 +1,36 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 
-function Navbar() {
+import { logout } from '../../actions/auth'
+
+const Navbar = ({ auth: { isAuthN, loading }, logout }) => {
+	const authLinks = (
+		<ul>
+			<li>
+				<a onClick={logout} to='#!'>
+					<i className='fas fa-sign-out-alt'></i>
+					<span className='hide-sm'>Logout</span>
+				</a>
+			</li>
+		</ul>
+	)
+
+	const guestLinks = (
+		<ul>
+			<li>
+				<Link to='/profiles'>Developers</Link>
+			</li>
+			<li>
+				<Link to='/register'>Register</Link>
+			</li>
+			<li>
+				<Link to='/login'>Login</Link>
+			</li>
+		</ul>
+	)
+
 	return (
 		<nav className='navbar bg-dark'>
 			<h1>
@@ -9,19 +38,18 @@ function Navbar() {
 					<i className='fas fa-code'></i> DevConnector
 				</Link>
 			</h1>
-			<ul>
-				<li>
-					<Link to='/profiles'>Developers</Link>
-				</li>
-				<li>
-					<Link to='/register'>Register</Link>
-				</li>
-				<li>
-					<Link to='/login'>Login</Link>
-				</li>
-			</ul>
+			{!loading && <>{isAuthN ? authLinks : guestLinks}</>}
 		</nav>
 	)
 }
 
-export default Navbar
+Navbar.propTypes = {
+	auth: PropTypes.object.isRequired,
+	logout: PropTypes.func.isRequired,
+}
+
+const mapPropsToState = state => ({
+	auth: state.auth,
+})
+
+export default connect(mapPropsToState, { logout })(Navbar)
