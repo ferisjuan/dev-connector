@@ -31,7 +31,13 @@ export default (state = initialState, { type, payload }) => {
 		case LOGOUT:
 		case REGISTER_FAIL:
 			localStorage.removeItem('token')
-			return { ...state, token: null, isAuthN: false, loading: false }
+			return {
+				...state,
+				token: null,
+				isAuthN: false,
+				loading: false,
+				user: null,
+			}
 
 		case USER_LOADED:
 			return { ...state, isAuthN: true, loading: false, user: payload }

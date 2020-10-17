@@ -2,6 +2,7 @@ import axios from 'axios'
 import { setAlert } from './alert'
 import {
 	AUTH_ERROR,
+	CLEAR_PROFILE,
 	LOGIN_FAIL,
 	LOGIN_SUCCESS,
 	LOGOUT,
@@ -62,7 +63,7 @@ export const login = (email, password) => async dispatch => {
 			payload: res.data,
 		})
 
-		dispatch(loadUser)
+		dispatch(loadUser())
 	} catch (err) {
 		const errors = err.response.data.errors
 
@@ -96,7 +97,6 @@ export const loadUser = () => async dispatch => {
 }
 
 export const logout = () => dispatch => {
-	dispatch({
-		type: LOGOUT,
-	})
+	dispatch({ type: CLEAR_PROFILE })
+	dispatch({ type: LOGOUT })
 }
