@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import { getCurrentProfile } from '../../actions/profile'
+import { DashboardActions } from './DashboardActions'
 
 import Spinner from '../layout/Spinner'
 
@@ -26,7 +27,7 @@ const Dashboard = ({
 				Welcome {user?.name}
 			</p>
 			{profile !== null ? (
-				<>has</>
+				<DashboardActions />
 			) : (
 				<>
 					<p>You have not yet set up a profile, please add some info</p>

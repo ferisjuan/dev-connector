@@ -1,13 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { createProfile } from '../../actions/profile'
+import { createProfile, getCurrentProfile } from '../../actions/profile'
 
-const CreateProfile = ({ createProfile, history }) => {
-	const [displaySocialInputs, setDisplaySocialInputs] = useState(false)
-
+const EditProfile = ({
+	createProfile,
+	getCurrentProfile,
+	history,
+	profile: { profile, loading },
+}) => {
 	const [formData, setFormData] = useState({
 		company: '',
 		website: '',
@@ -22,6 +25,29 @@ const CreateProfile = ({ createProfile, history }) => {
 		instagram: '',
 		linkedin: '',
 	})
+
+	useEffect(() => {
+		console.log(formData)
+		getCurrentProfile()
+
+		setFormData({
+			company: loading || !profile.company ? '' : profile.company,
+			website: loading || !profile.website ? '' : profile.website,
+			location: loading || !profile.location ? '' : profile.location,
+			bio: loading || !profile.bio ? '' : profile.bio,
+			status: loading || !profile.status ? '' : profile.status,
+			githubUsername:
+				loading || !profile.githubUsername ? '' : profile.githubUsername,
+			skills: loading || !profile.skills ? '' : profile.skills.join(','),
+			youtube: loading || !profile.youtube ? '' : profile.youtube,
+			facebook: loading || !profile.facebook ? '' : profile.facebook,
+			twitter: loading || !profile.twitter ? '' : profile.twitter,
+			instagram: loading || !profile.instagram ? '' : profile.instagram,
+			linkedin: loading || !profile.linkedin ? '' : profile.linkedin,
+		})
+	}, [loading])
+
+	const [displaySocialInputs, setDisplaySocialInputs] = useState(false)
 
 	const {
 		company,
@@ -43,7 +69,7 @@ const CreateProfile = ({ createProfile, history }) => {
 
 	const handleSubmit = e => {
 		e.preventDefault()
-		createProfile(formData, history)
+		createProfile(formData, history, true)
 	}
 
 	return (
@@ -221,9 +247,17 @@ const CreateProfile = ({ createProfile, history }) => {
 	)
 }
 
-CreateProfile.propTypes = {
+EditProfile.propTypes = {
 	createProfile: PropTypes.func.isRequired,
+	getCurrentProfile: PropTypes.func.isRequired,
 	history: PropTypes.object.isRequired,
+	profile: PropTypes.object.isRequired,
 }
 
-export default connect(null, { createProfile })(withRouter(CreateProfile))
+const mapStateToProps = state => ({
+	profile: state.profile,
+})
+
+export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
+	withRouter(EditProfile)
+)
