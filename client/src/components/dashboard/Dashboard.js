@@ -7,6 +7,8 @@ import { getCurrentProfile } from '../../actions/profile'
 import { DashboardActions } from './DashboardActions'
 
 import Spinner from '../layout/Spinner'
+import Experience from './Experience'
+import Education from './Education'
 
 const Dashboard = ({
 	auth: { user },
@@ -27,7 +29,11 @@ const Dashboard = ({
 				Welcome {user?.name}
 			</p>
 			{profile !== null ? (
-				<DashboardActions />
+				<>
+					<DashboardActions />
+					<Experience experience={profile.experience} />
+					<Education education={profile.education} />
+				</>
 			) : (
 				<>
 					<p>You have not yet set up a profile, please add some info</p>
