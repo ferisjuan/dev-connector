@@ -27,7 +27,6 @@ const EditProfile = ({
 	})
 
 	useEffect(() => {
-		console.log(formData)
 		getCurrentProfile()
 
 		setFormData({
@@ -45,7 +44,7 @@ const EditProfile = ({
 			instagram: loading || !profile.instagram ? '' : profile.instagram,
 			linkedin: loading || !profile.linkedin ? '' : profile.linkedin,
 		})
-	}, [loading])
+	}, [loading, getCurrentProfile])
 
 	const [displaySocialInputs, setDisplaySocialInputs] = useState(false)
 
