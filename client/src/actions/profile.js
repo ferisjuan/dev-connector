@@ -4,6 +4,8 @@ import {
 	ACCOUNT_DELETED,
 	CLEAR_PROFILE,
 	GET_PROFILE,
+	GET_PROFILES,
+	GET_REPOS,
 	PROFILE_ERROR,
 	UPDATE_PROFILE,
 } from './types'
@@ -29,6 +31,57 @@ export const getCurrentProfile = () => async dispatch => {
 
 		dispatch({
 			type: GET_PROFILE,
+			payload: res.data,
+		})
+	} catch (err) {
+		dispatchProfileError(err, dispatch)
+	}
+}
+
+export const getProfiles = () => async dispatch => {
+	dispatch({
+		type: CLEAR_PROFILE,
+	})
+
+	try {
+		if (localStorage.token) {
+			setAuthToken(localStorage.token)
+		}
+
+		const res = await axios.get('/api/profile')
+
+		dispatch({
+			type: GET_PROFILES,
+			payload: res.data,
+		})
+	} catch (err) {
+		dispatchProfileError(err, dispatch)
+	}
+}
+
+export const getProfileById = userID => async dispatch => {
+	try {
+		if (localStorage.token) {
+			setAuthToken(localStorage.token)
+		}
+
+		const res = await axios.get(`/api/profile/user${userID}`)
+
+		dispatch({
+			type: GET_PROFILE,
+			payload: res.data,
+		})
+	} catch (err) {
+		dispatchProfileError(err, dispatch)
+	}
+}
+
+export const getGithubRepos = username => async dispatch => {
+	try {
+		const res = await axios.get(`/api/profile/github/${username}`)
+
+		dispatch({
+			type: GET_REPOS,
 			payload: res.data,
 		})
 	} catch (err) {
@@ -145,6 +198,7 @@ export const deleteEducation = id => async dispatch => {
 		dispatchProfileError(err, dispatch)
 	}
 }
+
 export const deleteAccount = () => async dispatch => {
 	if (window.confirm('Are you sure? This can NOT be undone!')) {
 		try {
