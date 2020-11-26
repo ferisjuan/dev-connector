@@ -9,6 +9,7 @@ import EditProfile from './components/profile-forms/EditProfile'
 import Landing from './components/layout/Landing'
 import Login from './components/auth/Login'
 import Navbar from './components/layout/Navbar'
+import Profile from './components/profile/Profile'
 import Profiles from './components/profiles/Profiles'
 import PrivateRoute from './components/routing/PrivateRote'
 
@@ -37,6 +38,7 @@ const App = () => {
 							<Route exact path='/register' component={Register} />
 							<Route exact path='/login' component={Login} />
 							<Route exact path='/profiles' component={Profiles} />
+							<Route exact path='/profile/:id' component={Profile} />
 							<PrivateRoute exact path='/dashboard' component={Dashboard} />
 							<PrivateRoute
 								exact
